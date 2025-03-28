@@ -146,6 +146,63 @@ const Footer = () => {
                 ))}
               </div>
             </div>
+
+            {/* GitHub Achievements */}
+            <div className="mt-6">
+              <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3 flex items-center space-x-2">
+                <svg className="w-5 h-5 text-gray-700 dark:text-gray-300" viewBox="0 0 16 16" fill="currentColor">
+                  <path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/>
+                </svg>
+                <span>GitHub Achievements</span>
+              </h4>
+              <div className="flex flex-wrap gap-4">
+                {/* Pull Shark Achievement */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="flex items-center space-x-3"
+                >
+                  <div className="w-8 h-8 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30 rounded-full flex items-center justify-center shadow-sm border border-blue-200 dark:border-blue-700">
+                    <svg className="w-5 h-5 text-blue-600 dark:text-blue-400" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12.71 2.29a1 1 0 00-1.42 0l-9 9a1 1 0 000 1.42A1 1 0 003 13h1v7a2 2 0 002 2h12a2 2 0 002-2v-7h1a1 1 0 00.71-1.71l-9-9zM13 20h-2v-3a1 1 0 012 0v3zm5-8v8h-3v-4a3 3 0 00-6 0v4H6v-8H4.41L12 4.41 19.59 12H17z"/>
+                    </svg>
+                  </div>
+                  <span className="text-sm font-medium text-gray-800 dark:text-gray-200">Pull Shark x2</span>
+                </motion.div>
+
+                {/* Quickdraw Achievement */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.1 }}
+                  className="flex items-center space-x-3"
+                >
+                  <div className="w-8 h-8 bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-900/30 dark:to-yellow-800/30 rounded-full flex items-center justify-center shadow-sm border border-yellow-200 dark:border-yellow-700">
+                    <svg className="w-5 h-5 text-yellow-600 dark:text-yellow-400" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"/>
+                      <path d="M13 7h-2v5.414l3.293 3.293 1.414-1.414L13 11.586z"/>
+                    </svg>
+                  </div>
+                  <span className="text-sm font-medium text-gray-800 dark:text-gray-200">Quickdraw</span>
+                </motion.div>
+
+                {/* YOLO Achievement */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.2 }}
+                  className="flex items-center space-x-3"
+                >
+                  <div className="w-8 h-8 bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30 rounded-full flex items-center justify-center shadow-sm border border-purple-200 dark:border-purple-700">
+                    <svg className="w-5 h-5 text-purple-600 dark:text-purple-400" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm0-2a8 8 0 100-16 8 8 0 000 16z"/>
+                      <path d="M12 7v6m0 2v2" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    </svg>
+                  </div>
+                  <span className="text-sm font-medium text-gray-800 dark:text-gray-200">YOLO</span>
+                </motion.div>
+              </div>
+            </div>
           </div>
 
           {/* Middle Section - Experience & Projects */}
