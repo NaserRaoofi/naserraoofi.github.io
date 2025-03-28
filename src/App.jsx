@@ -12,17 +12,28 @@ export default function App() {
   const [filtered, setFiltered] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedSubCategories, setSelectedSubCategories] = useState([]);
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    // Check if user has a saved preference
+    const savedMode = localStorage.getItem('darkMode');
+    if (savedMode !== null) {
+      return JSON.parse(savedMode);
+    }
+    // If no saved preference, check system preference
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
 
   useEffect(() => {
     // Track page view
     pageview(window.location.pathname);
 
-    // Check for saved dark mode preference
-    const isDark = localStorage.getItem('darkMode') === 'true';
-    setDarkMode(isDark);
-    if (isDark) {
+    // Update localStorage when dark mode changes
+    localStorage.setItem('darkMode', JSON.stringify(darkMode));
+    
+    // Update document class
+    if (darkMode) {
       document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
     }
 
     fetch("https://api.github.com/users/naserraoofi/repos")
@@ -31,13 +42,19 @@ export default function App() {
         setRepos(data);
         setFiltered(data);
       });
-  }, []);
+  }, [darkMode]);
 
   const toggleDarkMode = () => {
-    const newDarkMode = !darkMode;
-    setDarkMode(newDarkMode);
-    localStorage.setItem('darkMode', newDarkMode);
-    document.documentElement.classList.toggle('dark');
+    setDarkMode(prevMode => {
+      const newMode = !prevMode;
+      localStorage.setItem('darkMode', JSON.stringify(newMode));
+      if (newMode) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      return newMode;
+    });
   };
 
   const handleSearch = (e) => {
@@ -252,7 +269,26 @@ export default function App() {
       transition={{ duration: 0.5 }}
     >
       {/* Header */}
-      <header className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-10 rounded-xl shadow-lg mb-8">
+      <header className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-10 rounded-xl shadow-lg mb-8 relative">
+        {/* Dark Mode Toggle */}
+        <motion.button
+          onClick={toggleDarkMode}
+          className="absolute top-4 right-4 p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors duration-200"
+          aria-label="Toggle dark mode"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          {darkMode ? (
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+          ) : (
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          )}
+        </motion.button>
+
         <div className="max-w-4xl mx-auto text-center">
           <motion.h1 
             className="text-4xl md:text-5xl font-bold mb-4"
