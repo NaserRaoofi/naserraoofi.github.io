@@ -4,7 +4,6 @@ import { Input } from "./components/ui/input";
 import { FilterSidebar } from "./components/FilterSidebar";
 import Footer from "./components/Footer";
 import { motion, AnimatePresence } from 'framer-motion';
-import { pageview } from './utils/analytics';
 
 export default function App() {
   const [repos, setRepos] = useState([]);
@@ -23,9 +22,6 @@ export default function App() {
   });
 
   useEffect(() => {
-    // Track page view
-    pageview(window.location.pathname);
-
     // Update localStorage when dark mode changes
     localStorage.setItem('darkMode', JSON.stringify(darkMode));
     
