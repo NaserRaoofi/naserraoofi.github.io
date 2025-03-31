@@ -21,6 +21,7 @@ export default function App() {
     // If no saved preference, check system preference
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   useEffect(() => {
     // Track page view
@@ -191,13 +192,13 @@ export default function App() {
       }`}
     >
       <Card>
-        <CardContent className="p-6">
+        <CardContent className="p-4 sm:p-6">
           <motion.div 
-            className="flex justify-between items-start mb-4"
+            className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 mb-4"
             whileHover={{ scale: 1.01 }}
             transition={{ duration: 0.1 }}
           >
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">{repo.name}</h2>
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white break-words">{repo.name}</h2>
             <span className="text-sm text-gray-500 dark:text-gray-400">
               {repo.language}
             </span>
@@ -223,7 +224,7 @@ export default function App() {
           </div>
 
           <motion.div 
-            className="flex justify-between items-center text-sm text-gray-500 dark:text-gray-400"
+            className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 text-sm text-gray-500 dark:text-gray-400"
             whileHover={{ scale: 1.01 }}
             transition={{ duration: 0.1 }}
           >
@@ -248,9 +249,8 @@ export default function App() {
               rel="noreferrer"
               whileHover={{ scale: 1.05, x: 5 }}
               whileTap={{ scale: 0.95 }}
-              transition={{ duration: 0.1 }}
             >
-              View on GitHub
+              View Project
               <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
               </svg>
@@ -262,176 +262,124 @@ export default function App() {
   );
 
   return (
-    <motion.div 
-      className="min-h-screen bg-gray-50 dark:bg-gray-900"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
-      {/* Header */}
-      <header className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-10 rounded-xl shadow-lg mb-8 relative">
-        {/* Dark Mode Toggle */}
-        <motion.button
-          onClick={toggleDarkMode}
-          className="absolute top-4 right-4 p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors duration-200"
-          aria-label="Toggle dark mode"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          {darkMode ? (
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-            </svg>
-          ) : (
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-            </svg>
-          )}
-        </motion.button>
-
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.h1 
-            className="text-4xl md:text-5xl font-bold mb-4"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            Naser Raoofi
-          </motion.h1>
-          <motion.p 
-            className="text-xl md:text-2xl italic mb-8 text-blue-100"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            Turning cloud challenges into elegant solutions
-          </motion.p>
-          
-          {/* Enhanced Search Section */}
-          <motion.div 
-            className="relative max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
-            <div className="relative">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <header className="sticky top-0 z-50 bg-white dark:bg-gray-800 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">My GitHub Projects</h1>
+            <div className="flex items-center space-x-4">
               <Input
                 type="text"
                 placeholder="Search projects..."
                 value={search}
                 onChange={handleSearch}
-                className="w-full px-6 py-4 text-lg bg-white/10 backdrop-blur-sm border-2 border-white/20 rounded-full 
-                         text-white placeholder-white focus:outline-none focus:border-white/40 
-                         transition-all duration-300 shadow-lg hover:shadow-xl"
+                className="w-full sm:w-64"
               />
-              <motion.div 
-                className="absolute right-4 top-1/2 -translate-y-1/2"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
+              <button
+                onClick={toggleDarkMode}
+                className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
               >
-                <svg 
-                  className="w-6 h-6 text-white/80" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24"
-                >
-                  <path 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    strokeWidth={2} 
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" 
-                  />
-                </svg>
-              </motion.div>
+                {darkMode ? (
+                  <svg className="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" />
+                  </svg>
+                ) : (
+                  <svg className="w-5 h-5 text-gray-700" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                  </svg>
+                )}
+              </button>
             </div>
-            
-            {/* Search Suggestions */}
-            {search && (
-              <motion.div 
-                className="absolute w-full mt-2 bg-white/10 backdrop-blur-md rounded-xl shadow-xl border border-white/20"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-              >
-                <div className="p-4">
-                  <p className="text-white/80 text-sm mb-2">Search by:</p>
-                  <div className="flex flex-wrap gap-2">
-                    {['AWS', 'DevOps', 'AI', 'Computer Vision', 'Cloud'].map((term) => (
-                      <motion.button
-                        key={term}
-                        onClick={() => setSearch(term)}
-                        className="px-3 py-1 bg-white/20 hover:bg-white/30 text-white rounded-full text-sm 
-                                 transition-colors duration-200"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        {term}
-                      </motion.button>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </motion.div>
+          </div>
         </div>
       </header>
 
-      <div className="px-6">
-        <div className="flex gap-6">
-          <FilterSidebar
-            selectedCategories={selectedCategories}
-            selectedSubCategories={selectedSubCategories}
-            onCategoryChange={handleCategoryChange}
-            onSubCategoryChange={handleSubCategoryChange}
-          />
-          
-          <div className="flex-1">
-            {/* Featured Projects Section */}
-            <AnimatePresence>
-              {getFeaturedProjects().length > 0 && (
-                <motion.div 
-                  className="mb-8"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <h2 className="text-2xl font-bold mb-4 flex items-center text-gray-900 dark:text-white">
-                    <svg className="w-6 h-6 mr-2 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.363 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.363-1.118l-2.8-2.034c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                    Featured Projects
-                  </h2>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {getFeaturedProjects().map((repo, index) => (
-                      <ProjectCard key={repo.id} repo={repo} isFeatured={true} index={index} />
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Filter Sidebar - Hidden on mobile, shown in drawer */}
+          <div className="hidden lg:block">
+            <FilterSidebar
+              selectedCategories={selectedCategories}
+              selectedSubCategories={selectedSubCategories}
+              onCategoryChange={handleCategoryChange}
+              onSubCategoryChange={handleSubCategoryChange}
+            />
+          </div>
 
-            {/* All Projects Section */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.2 }}
+          {/* Mobile Filter Button */}
+          <div className="lg:hidden mb-4">
+            <button
+              onClick={() => setShowMobileFilters(!showMobileFilters)}
+              className="w-full px-4 py-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm flex items-center justify-between"
             >
-              <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">All Projects</h2>
+              <span className="text-gray-900 dark:text-white">Filters</span>
+              <svg
+                className={`w-5 h-5 transform transition-transform ${showMobileFilters ? 'rotate-180' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Mobile Filter Drawer */}
+          <AnimatePresence>
+            {showMobileFilters && (
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="lg:hidden fixed inset-0 z-50 bg-white dark:bg-gray-800 p-4"
+              >
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Filters</h2>
+                  <button
+                    onClick={() => setShowMobileFilters(false)}
+                    className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                  >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+                <FilterSidebar
+                  selectedCategories={selectedCategories}
+                  selectedSubCategories={selectedSubCategories}
+                  onCategoryChange={handleCategoryChange}
+                  onSubCategoryChange={handleSubCategoryChange}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Projects Grid */}
+          <div className="flex-1">
+            {/* Featured Projects */}
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Featured Projects</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <AnimatePresence>
-                  {filtered.map((repo, index) => (
-                    <ProjectCard key={repo.id} repo={repo} index={index} />
-                  ))}
-                </AnimatePresence>
+                {getFeaturedProjects().map((repo, index) => (
+                  <ProjectCard key={repo.id} repo={repo} isFeatured={true} index={index} />
+                ))}
               </div>
-            </motion.div>
+            </div>
+
+            {/* All Projects */}
+            <div>
+              <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">All Projects</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filtered.map((repo, index) => (
+                  <ProjectCard key={repo.id} repo={repo} index={index} />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </main>
 
-      {/* Footer */}
       <Footer />
-    </motion.div>
+    </div>
   );
 }

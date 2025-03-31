@@ -26,7 +26,7 @@ export function FilterSidebar({ selectedCategories, selectedSubCategories, onCat
   };
 
   return (
-    <div className="w-64 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm h-fit">
+    <div className="w-full lg:w-64 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm h-fit">
       <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Categories</h2>
       <div className="space-y-4">
         {Object.entries(categories).map(([category, subCategories]) => (
@@ -39,7 +39,19 @@ export function FilterSidebar({ selectedCategories, selectedSubCategories, onCat
                   : 'bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600'
               }`}
             >
-              {category}
+              <div className="flex items-center justify-between">
+                <span>{category}</span>
+                <svg
+                  className={`w-4 h-4 transform transition-transform ${
+                    selectedCategories.includes(category) ? 'rotate-180' : ''
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
             </button>
             
             {selectedCategories.includes(category) && (
